@@ -1,3 +1,6 @@
+
+import javax.swing.ButtonModel;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
@@ -59,14 +62,17 @@ public class Interface extends javax.swing.JFrame {
         radioNothing.setSelected(true);
         radioNothing.setText("Nothing");
         getContentPane().add(radioNothing, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 57, -1, -1));
+        radioNothing.setActionCommand("nothing");
 
         grMacro.add(radioLR);
         radioLR.setText("Left/Right click");
         getContentPane().add(radioLR, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 100, -1, -1));
+        radioLR.setActionCommand("lr");
 
         grMacro.add(radioAuto);
         radioAuto.setText("Auto click");
         getContentPane().add(radioAuto, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 140, -1, -1));
+        radioAuto.setActionCommand("auto");
 
         sliderAuto.setMinimum(1);
         sliderAuto.setPreferredSize(new java.awt.Dimension(100, 15));
@@ -78,6 +84,11 @@ public class Interface extends javax.swing.JFrame {
         getContentPane().add(sliderAuto, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 140, 90, 20));
 
         butValide.setText("validate");
+        butValide.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                butValideActionPerformed(evt);
+            }
+        });
         getContentPane().add(butValide, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 180, -1, -1));
 
         jSeparator2.setForeground(new java.awt.Color(0, 0, 0));
@@ -123,6 +134,12 @@ public class Interface extends javax.swing.JFrame {
         butActivation.setText(keyName);
         this.requestFocusInWindow();
     }//GEN-LAST:event_butActivationKeyPressed
+
+    private void butValideActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butValideActionPerformed
+        String action = grMacro.getSelection().getActionCommand();
+        System.out.println(action);
+        // Runtime.getRuntime().exec("");
+    }//GEN-LAST:event_butValideActionPerformed
 
     /**
      * @param args the command line arguments
