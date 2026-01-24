@@ -1,6 +1,8 @@
 
+import com.github.kwhat.jnativehook.keyboard.NativeKeyListener;
 import javax.swing.ButtonModel;
 
+import GestionMacro.Hook;
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
@@ -11,13 +13,15 @@ import javax.swing.ButtonModel;
  * @author Antoni
  */
 public class Interface extends javax.swing.JFrame {
-    private float delay;
+    private int delay;
     private int activationCode = 50;
+    private final Hook hook;
     /**
      * Creates new form Interface
      */
     public Interface() {
         initComponents();
+        hook = new Hook();
     }
 
     /**
@@ -49,6 +53,11 @@ public class Interface extends javax.swing.JFrame {
         setTitle("Macro");
         setBackground(new java.awt.Color(255, 255, 255));
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         label2.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
@@ -62,17 +71,16 @@ public class Interface extends javax.swing.JFrame {
         radioNothing.setSelected(true);
         radioNothing.setText("Nothing");
         getContentPane().add(radioNothing, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 57, -1, -1));
-        radioNothing.setActionCommand("nothing");
 
         grMacro.add(radioLR);
         radioLR.setText("Left/Right click");
         getContentPane().add(radioLR, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 100, -1, -1));
-        radioLR.setActionCommand("lr");
+        radioLR.setActionCommand("leftright");
 
         grMacro.add(radioAuto);
         radioAuto.setText("Auto click");
         getContentPane().add(radioAuto, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 140, -1, -1));
-        radioAuto.setActionCommand("auto");
+        radioAuto.setActionCommand("autoclick");
 
         sliderAuto.setMinimum(1);
         sliderAuto.setPreferredSize(new java.awt.Dimension(100, 15));
@@ -113,6 +121,11 @@ public class Interface extends javax.swing.JFrame {
         getContentPane().add(jSeparator5, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 131, 10, 40));
 
         butActivation.setText("2");
+        butActivation.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                butActivationActionPerformed(evt);
+            }
+        });
         butActivation.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 butActivationKeyPressed(evt);
@@ -124,12 +137,16 @@ public class Interface extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void sliderAutoStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_sliderAutoStateChanged
-        delay = (float)(sliderAuto.getValue())/100;
-        labelDelay.setText(delay + "s btw click");
+        delay = (sliderAuto.getValue())*10;
+        hook.setDelay(delay);
+        labelDelay.setText((float)(sliderAuto.getValue())/100 + "s btw click");
     }//GEN-LAST:event_sliderAutoStateChanged
 
     private void butActivationKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_butActivationKeyPressed
-        activationCode = evt.getKeyCode();
+        if (evt.getKeyCode() != 27){
+            activationCode = evt.getKeyCode();
+            hook.setActivationCode(activationCode);
+        }
         String keyName = java.awt.event.KeyEvent.getKeyText(activationCode);
         butActivation.setText(keyName);
         this.requestFocusInWindow();
@@ -137,10 +154,17 @@ public class Interface extends javax.swing.JFrame {
 
     private void butValideActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butValideActionPerformed
         String action = grMacro.getSelection().getActionCommand();
-        System.out.println(action);
-        // Runtime.getRuntime().exec("");
+        hook.setMacro(action);
     }//GEN-LAST:event_butValideActionPerformed
 
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        hook.formWindowClosing(evt);
+    }//GEN-LAST:event_formWindowClosing
+
+    private void butActivationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butActivationActionPerformed
+        butActivation.setText("...");
+    }//GEN-LAST:event_butActivationActionPerformed
+    
     /**
      * @param args the command line arguments
      */
