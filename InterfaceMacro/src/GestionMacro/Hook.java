@@ -76,6 +76,7 @@ public class Hook implements NativeKeyListener {
         if (keyName.equals(java.awt.event.KeyEvent.getKeyText(activationCode)) && macro != null) {
             try {
                 if (!arreterMacro()) {
+                    // process = Runtime.getRuntime().exec(runMacro.getMacro("test", delay));
                     process = Runtime.getRuntime().exec(runMacro.getMacro(macro, delay));
                 }
             } catch (IOException ex) {
@@ -98,6 +99,7 @@ public class Hook implements NativeKeyListener {
     public void formWindowClosing(java.awt.event.WindowEvent evt) {                                   
         try {
             GlobalScreen.unregisterNativeHook();
+            arreterMacro();
         } catch (NativeHookException ex) {
             System.out.println("erreur closing");
         }

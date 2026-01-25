@@ -34,7 +34,7 @@ public class Interface extends javax.swing.JFrame {
     private void initComponents() {
 
         grMacro = new javax.swing.ButtonGroup();
-        label2 = new java.awt.Label();
+        labTitre = new java.awt.Label();
         jSeparator1 = new javax.swing.JSeparator();
         radioNothing = new javax.swing.JRadioButton();
         radioLR = new javax.swing.JRadioButton();
@@ -60,9 +60,9 @@ public class Interface extends javax.swing.JFrame {
         });
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        label2.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        label2.setText("Type de macro :");
-        getContentPane().add(label2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
+        labTitre.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        labTitre.setText("Type de macro :");
+        getContentPane().add(labTitre, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 320, -1));
 
         jSeparator1.setForeground(new java.awt.Color(0, 0, 0));
         getContentPane().add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 48, 340, -1));
@@ -154,7 +154,13 @@ public class Interface extends javax.swing.JFrame {
 
     private void butValideActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butValideActionPerformed
         String action = grMacro.getSelection().getActionCommand();
+        if (action == null) {
+            labTitre.setText("Type de macro :");
+        } else {
+            labTitre.setText("Type de macro : " + action);
+        }
         hook.setMacro(action);
+        
     }//GEN-LAST:event_butValideActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
@@ -210,7 +216,7 @@ public class Interface extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JSeparator jSeparator4;
     private javax.swing.JSeparator jSeparator5;
-    private java.awt.Label label2;
+    private java.awt.Label labTitre;
     private javax.swing.JLabel labelDelay;
     private javax.swing.JRadioButton radioAuto;
     private javax.swing.JRadioButton radioLR;
