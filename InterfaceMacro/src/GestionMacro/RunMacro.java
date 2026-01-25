@@ -9,7 +9,12 @@ package GestionMacro;
  * @author Antoni
  */
 public class RunMacro {
-    private final String path = "C:\\Users\\Antoni\\Documents\\code\\macro\\codeMacro\\bin\\";
+    private String path;
+    
+    public RunMacro() {
+        path = new java.io.File(".").getAbsolutePath();
+        path = path.replace("InterfaceMacro\\.", "codeMacro\\bin\\");
+    }
     
     public String getMacro(String macro, int delay){
         return switch (macro) {
